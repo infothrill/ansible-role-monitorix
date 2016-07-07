@@ -146,16 +146,6 @@ galaxy_info:
   #  - squeeze
   #  - stretch
     - wheezy
-  - name: Raspbian
-    versions:
-  #  - all
-  #  - etch
-  #  - jessie
-  #  - lenny
-  #  - sid
-  #  - squeeze
-  #  - stretch
-    - wheezy
 
   galaxy_tags:
     - monitorix
