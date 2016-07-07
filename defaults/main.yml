@@ -1,0 +1,13 @@
+---
+# defaults file for monitorix
+
+# required settings
+monitorix_version: 3.8.1-izzy1
+monitorix_url: http://www.monitorix.org/monitorix_{{ monitorix_version }}_all.deb
+monitorix_download_dir: /home/pi/src/monitorix
+monitorix_port: "8081"
+monitorix_conf: /etc/monitorix/monitorix.conf
+
+# optional settings
+monitorix_nfss: "y"
+monitorix_nfsc: "n"
