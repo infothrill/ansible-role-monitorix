@@ -136,8 +136,8 @@ galaxy_info:
   #  versions:
   #  - all
   #  - any
-  #- name: Debian
-  #  versions:
+  - name: Debian
+    versions:
   #  - all
   #  - etch
   #  - jessie
@@ -145,7 +145,7 @@ galaxy_info:
   #  - sid
   #  - squeeze
   #  - stretch
-  #  - wheezy
+    - wheezy
   - name: Raspbian
     versions:
   #  - all
