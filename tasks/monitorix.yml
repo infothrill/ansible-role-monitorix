@@ -24,7 +24,8 @@
   become_user: root
   become: yes
 
-- file: path={{ monitorix_download_dir }} state=directory
+- name: "monitorix download dir"
+  file: path={{ monitorix_download_dir }} state=directory
   when: monitorix_detected_version.stdout != "{{ monitorix_version }}"
 
 - name: "Download monitorix package"
