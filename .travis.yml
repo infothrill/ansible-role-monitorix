@@ -12,11 +12,13 @@ addons:
     - python-pip
 
 install:
-  # Install ansible
+  # Install ansible and linter
   - pip install ansible
+  - pip install ansible-lint==3.2.0
 
-  # Check ansible version
+  # Check versions
   - ansible --version
+  - ansible-lint --version
 
   # Create ansible.cfg with correct roles_path
   - printf '[defaults]\nroles_path=../' >ansible.cfg
@@ -24,6 +26,8 @@ install:
 script:
   # Basic role syntax check
   - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
+  # Ansible lint
+  - ansible-lint tests/test.yml
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
