@@ -1,37 +1,41 @@
-Ansible role: monitorix
-=======================
+# Ansible role monitorix
 
-Install and configure [monitorix](http://www.monitorix.org/) on a Linux system.
+An [Ansible](http://www.ansible.com) role to install
+[monitorix](http://www.monitorix.org/), a lightweight monitoring system on
+Debian based Linux system.
 
-Requirements
-------------
+## Quick howto
 
-None.
+requirements.yml:
 
-Role Variables
---------------
+	- src: infothrill.monitorix
+	  version: v1.0
 
+Install:
 
+	ansible-galaxy install -r requirements.yml -p ./roles/
 
-Dependencies
-------------
-
-None.
-
-Example Playbook
-----------------
+Playbook:
 
     - hosts: servers
-      roles:
-         - { role: infothrill.monitorix }
+        roles:
+		    - role: infothrill.monitorix
 
-License
--------
+## Dependencies
 
-MIT / BSD
+No ansible dependencies.
 
-Author Information
-------------------
+## License
+
+MIT
+
+## Author Information
 
 This role was created in 2016 by Paul Kremer.
+
+## Changes
+
+### v1.0
+
+* initial release
 

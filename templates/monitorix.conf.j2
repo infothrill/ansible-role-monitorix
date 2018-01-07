@@ -16,6 +16,8 @@ show_gaps = n
 global_zoom = 1
 max_historic_years = 1
 accept_selfsigned_certs = y
+image_format = PNG
+enable_parallelizing = y
 include_dir = /etc/monitorix/conf.d
 
 base_dir = /var/lib/monitorix/www/
@@ -76,6 +78,8 @@ secure_log_date_format = %b %e
 	proc		= y
 	hptemp		= n
 	lmsens		= n
+	gensens		= n
+	ipmi		= n
 	nvidia		= n
 	disk		= n
 	fs		= y
@@ -83,6 +87,7 @@ secure_log_date_format = %b %e
 	du		= n
 	net		= y
 	netstat		= y
+	tc		= n
 	libvirt		= n
 	process		= n
 	serv		= y
@@ -94,13 +99,15 @@ secure_log_date_format = %b %e
 	nginx		= n
 	lighttpd	= n
 	mysql		= n
+	mongodb		= n
 	varnish		= n
 	pagespeed	= n
 	squid		= n
 	nfss		= {{ monitorix_nfss|default("y") }}
 	nfsc		= {{ monitorix_nfsc|default("n") }}
 	bind		= n
-	ntp		= y
+	ntp		= n
+	chrony		= n
 	fail2ban	= n
 	icecast		= n
 	raspberrypi	= y
@@ -117,14 +124,14 @@ secure_log_date_format = %b %e
 # SYSTEM graph
 # -----------------------------------------------------------------------------
 <system>
-	rigid = 1, 0
-	limit = 1, 100
 	<alerts>
 		loadavg_enabled = n
 		loadavg_timeintvl = 3600
 		loadavg_threshold = 5.0
 		loadavg_script = /path/to/script.sh
 	</alerts>
+	rigid = 1, 0, 0, 0 ,0
+	limit = 1, 1000, 1000, 1000, 1000
 </system>
 
 
@@ -165,6 +172,8 @@ secure_log_date_format = %b %e
 	graph_0 = 2, 3
 	graph_1 = 1, 6
 	graph_2 = 16, 18, 19, 20, 21, 22
+	<alerts>
+	</alerts>
 </hptemp>
 
 
@@ -189,13 +198,69 @@ secure_log_date_format = %b %e
 		volt7	= Battery
 		gpu0	= nvidia
 	</list>
+	<desc>
+	</desc>
+	<alerts>
+	</alerts>
 </lmsens>
+
+
+# GENSENS graph
+# -----------------------------------------------------------------------------
+<gensens>
+	<list>
+		0 = temp0
+		1 = cpu0
+	</list>
+	<desc>
+		temp0 = /sys/devices/virtual/thermal/thermal_zone0/temp
+		cpu0 = /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq
+	</desc>
+	<unit>
+		temp0 = 1000
+		cpu0 = 0.001
+	</unit>
+	<map>
+		temp0 = Temperature Zone 0
+		cpu0 = CPU0 frequency
+	</map>
+	<alerts>
+	</alerts>
+	rigid = 0, 0
+	limit = 100, 100
+</gensens>
+
+
+# IPMI graph
+# -----------------------------------------------------------------------------
+<ipmi>
+	list = Temperatures, Fans, Voltages
+	<desc>
+		0 = CPU Temp, System Temp
+		1 = FAN 1
+		2 = Vcore, 3.3VCC, 12V, VDIMM, 5VCC, CPU VTT, VBAT, VSB, AVCC
+	</desc>
+	<units>
+		0 = degrees C
+		1 = RPM
+		2 = Volts
+	</units>
+	<map>
+	</map>
+	<alerts>
+	</alerts>
+	graphs_per_row = 2
+	rigid = 0
+	limit = 100
+</ipmi>
 
 
 # NVIDIA graph
 # -----------------------------------------------------------------------------
 <nvidia>
 	max = 1
+	<alerts>
+	</alerts>
 	rigid = 1, 2, 2
 	limit = 50, 100, 100
 </nvidia>
@@ -268,6 +333,7 @@ secure_log_date_format = %b %e
 # NET graph
 # -----------------------------------------------------------------------------
 <net>
+	max = 10
 	list = eth0
 	<desc>
 		eth0 = FastEthernet LAN, 0, 10000000
@@ -284,9 +350,24 @@ secure_log_date_format = %b %e
 </netstat>
 
 
+# TC graph
+# -----------------------------------------------------------------------------
+<tc>
+	list = eth0
+	<desc>
+		eth0 = cbq 1, sfq 10, sfq 20, sfq 30, ingress ffff
+	</desc>
+	<map>
+	</map>
+	rigid = 0, 0, 0, 0
+	limit = 1000, 1000, 1000, 1000
+</tc>
+
+
 # LIBVIRT graph
 # -----------------------------------------------------------------------------
 <libvirt>
+	cmd = virsh
 	<list>
 		0 = centos6, winxp
 	</list>
@@ -329,6 +410,7 @@ secure_log_date_format = %b %e
 <mail>
 	mta = sendmail
 	greylist = milter-greylist
+	stats_rate = real
 	rigid = 0, 0, 0, 0, 0
 	limit = 1, 1000, 1000, 1000, 1000
 	<alerts>
@@ -351,15 +433,15 @@ secure_log_date_format = %b %e
 	rule = 24000
 	list = 25, 21, 80, 22, 110, 139, 3306, 53, 143
 	<desc>
-		25	= SMTP,    tcp, in, 0, 1000
-		21	= FTP,     tcp, in, 0, 1000
-		80	= HTTP,    tcp, in, 0, 1000
-		22	= SSH,     tcp, in, 0, 1000
-		110	= POP3,    tcp, in, 0, 1000
-		139	= NETBIOS, tcp, in, 0, 1000
-		3306	= MYSQL,   tcp, in, 0, 1000
-		53	= DNS,     udp, in, 0, 1000
-		143	= IMAP,    tcp, in, 0, 1000
+		25	= SMTP,    tcp, in, 0, 1000, L
+		21	= FTP,     tcp, in, 0, 1000, L
+		80	= HTTP,    tcp, in, 0, 1000, L
+		22	= SSH,     tcp, in, 0, 1000, L
+		110	= POP3,    tcp, in, 0, 1000, L
+		139	= NETBIOS, tcp, in, 0, 1000, L
+		3306	= MYSQL,   tcp, in, 0, 1000, L
+		53	= DNS,     udp, in, 0, 1000, L
+		143	= IMAP,    tcp, in, 0, 1000, L
 	</desc>
 	graphs_per_row = 3
 </port>
@@ -426,6 +508,22 @@ secure_log_date_format = %b %e
 	rigid = 0, 2, 0, 0, 0, 0
 	limit = 100, 100, 100, 100, 100, 100
 </mysql>
+
+
+# MONGODB graph
+# -----------------------------------------------------------------------------
+<mongodb>
+	list = localhost
+	max_db = 1
+	<desc>
+		<localhost>
+			host = 127.0.0.1
+			db_list = mydb
+		</localhost>
+	</desc>
+	rigid = 0, 0, 0, 0, 0, 0, 0, 0
+	limit = 100, 100, 100, 100, 100, 100, 100, 100
+</mongodb>
 
 
 # VARNISH graph
@@ -516,6 +614,15 @@ secure_log_date_format = %b %e
 	rigid = 0, 0, 0
 	limit = 100, 100, 100
 </ntp>
+
+
+# CHRONY graph
+# -----------------------------------------------------------------------------
+<chrony>
+	list = localhost
+	rigid = 0, 0, 0, 0, 0, 0
+	limit = 100, 100, 100, 100, 100, 100
+</chrony>
 
 
 # FAIL2BAN graph
@@ -758,7 +865,7 @@ logo_bottom = logo_bot.png
 	remote	= 300x100
 </graph_size>
 
-graph_name = system, kern, proc, hptemp, lmsens, nvidia, disk, fs, zfs, du, net, netstat, libvirt, process, serv, mail, port, user, ftp, apache, nginx, lighttpd, mysql, varnish, pagespeed, squid, nfss, nfsc, bind, ntp, fail2ban, icecast, raspberrypi, phpapc, memcached, apcupsd, nut, wowza, int, verlihub
+graph_name = system, kern, proc, hptemp, lmsens, gensens, ipmi, nvidia, disk, fs, zfs, du, net, netstat, tc, libvirt, process, serv, mail, port, user, ftp, apache, nginx, lighttpd, mysql, mongodb, varnish, pagespeed, squid, nfss, nfsc, bind, ntp, chrony, fail2ban, icecast, raspberrypi, phpapc, memcached, apcupsd, nut, wowza, int, verlihub
 
 <graph_title>
 	system		= System load average and usage
@@ -766,6 +873,8 @@ graph_name = system, kern, proc, hptemp, lmsens, nvidia, disk, fs, zfs, du, net,
 	proc		= Kernel usage per processor
 	hptemp		= HP ProLiant System Health
 	lmsens		= LM-Sensors and GPU temperatures
+	gensens		= Generic sensor statistics
+	ipmi		= IPMI sensor statistics
 	nvidia		= NVIDIA temperatures and usage
 	disk		= Disk drive temperatures and health
 	fs		= Filesystem usage and I/O activity
@@ -773,6 +882,7 @@ graph_name = system, kern, proc, hptemp, lmsens, nvidia, disk, fs, zfs, du, net,
 	du		= Directory usage
 	net		= Network traffic and usage
 	netstat		= Netstat statistics
+	tc		= Traffic Control statistics
 	libvirt		= Libvirt statistics
 	process		= Processes statistics
 	serv		= System services demand
@@ -784,6 +894,7 @@ graph_name = system, kern, proc, hptemp, lmsens, nvidia, disk, fs, zfs, du, net,
 	nginx		= Nginx statistics
 	lighttpd	= Lighttpd statistics
 	mysql		= MySQL statistics
+	mongodb		= MongoDB statistics
 	varnish		= Varnish statistics
 	pagespeed	= PageSpeed statistics
 	squid		= Squid statistics
@@ -791,6 +902,7 @@ graph_name = system, kern, proc, hptemp, lmsens, nvidia, disk, fs, zfs, du, net,
 	nfsc		= NFS client statistics
 	bind		= BIND statistics
 	ntp		= NTP statistics
+	chrony		= Chrony statistics
 	fail2ban	= Fail2ban statistics
 	icecast		= Icecast Streaming Media Server
 	raspberrypi	= Raspberry Pi sensor statistics
@@ -805,8 +917,10 @@ graph_name = system, kern, proc, hptemp, lmsens, nvidia, disk, fs, zfs, du, net,
 
 <graphs>
 	_system1	= System load
-	_system2	= Active processes
-	_system3	= Memory allocation
+	_system2	= Memory allocation
+	_system3	= Active processes
+	_system4	= Entropy
+	_system5	= Uptime
 	_kern1		= Kernel usage
 	_kern2		= Context switches and forks
 	_kern3		= VFS usage
@@ -819,6 +933,9 @@ graph_name = system, kern, proc, hptemp, lmsens, nvidia, disk, fs, zfs, du, net,
 	_lmsens3	= MB and CPU temperatures
 	_lmsens4	= Fan speeds
 	_lmsens5	= GPU temperatures
+	_gensens1	= Temperatures
+	_gensens2	= CPU frequency
+	_ipmi		= IPMI sensors
 	_nvidia1	= NVIDIA temperatures
 	_nvidia2	= CPU usage
 	_nvidia3	= Memory usage
@@ -843,6 +960,10 @@ graph_name = system, kern, proc, hptemp, lmsens, nvidia, disk, fs, zfs, du, net,
 	_netstat3	= Active close
 	_netstat4	= Passive close
 	_netstat5	= UDP statistics
+	_tc1		= Traffic
+	_tc2		= Dropped
+	_tc3		= Overlimits
+	_tc4		= Requeues
 	_libvirt1	= CPU time usage
 	_libvirt2	= Memory usage
 	_libvirt3	= Disk usage
@@ -889,6 +1010,12 @@ graph_name = system, kern, proc, hptemp, lmsens, nvidia, disk, fs, zfs, du, net,
 	_mysql4		= MySQL queries
 	_mysql5		= MySQL connections
 	_mysql6		= MySQL traffic
+	_mongodb1	= MongoDB operations
+	_mongodb2	= MongoDB metrics document
+	_mongodb3	= MongoDB write performance
+	_mongodb4	= MongoDB connections
+	_mongodb5	= MongoDB requests & asserts
+	_mongodb6	= MongoDB traffic
 	_varnish1	= Varnish statistics
 	_varnish2	= Backend usage
 	_varnish3	= Client connections
@@ -937,6 +1064,12 @@ graph_name = system, kern, proc, hptemp, lmsens, nvidia, disk, fs, zfs, du, net,
 	_ntp1		= NTP timing stats
 	_ntp2		= Stratum level
 	_ntp3		= Codes
+	_chrony1	= Chrony timing stats
+	_chrony2	= Network path delays
+	_chrony3	= Stratum level
+	_chrony4	= System's clock drift
+	_chrony5	= Estimated error in frequency
+	_chrony6	= Update interval
 	_fail2ban	= Fail2ban jails
 	_icecast1	= Current listeners
 	_icecast2	= Bitrate

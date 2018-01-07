@@ -1,0 +1,3 @@
+FROM debian:wheezy
+
+RUN apt-get update -qq && apt-get install -qqy python

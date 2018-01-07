@@ -1,0 +1,28 @@
+---
+molecule:
+  # directories to ignore when doing trailing whitespace checks on files during verify command
+  ignore_paths:
+    - .git
+    - .vagrant
+    - .molecule
+    - .tox
+
+driver:
+  name: docker
+
+dependency:
+  name: galaxy
+#  requirements_file: requirements.yml
+
+docker:
+  containers:
+    - name: ansible-role-monitorix
+      image: ansible-role-monitorix_local
+      image_version: latest
+      build_image: true
+      dockerfile: Dockerfile
+      privileged: True
+      ansible_groups:
+        - group1
+verifier:
+  name: testinfra

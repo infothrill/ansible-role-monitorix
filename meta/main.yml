@@ -3,9 +3,9 @@ galaxy_info:
   description: Installs monitorix
   company: Snakeoil
 
-  license: BSD
+  license: MIT
 
-  min_ansible_version: 1.9
+  min_ansible_version: 2.1
 
   # Optionally specify the branch Galaxy will use when accessing the GitHub
   # repo for this role. During role install, if no tags are available,
@@ -103,8 +103,8 @@ galaxy_info:
   #  - 9.1
   #  - 9.2
   #  - 9.3
-  #- name: Ubuntu
-  #  versions:
+  - name: Ubuntu
+    versions:
   #  - all
   #  - lucid
   #  - maverick
@@ -114,11 +114,11 @@ galaxy_info:
   #  - quantal
   #  - raring
   #  - saucy
-  #  - trusty
+    - trusty
   #  - utopic
   #  - vivid
   #  - wily
-  #  - xenial
+    - xenial
   #- name: SLES
   #  versions:
   #  - all
@@ -149,5 +149,6 @@ galaxy_info:
 
   galaxy_tags:
     - monitorix
+    - monitoring
 
 dependencies: []

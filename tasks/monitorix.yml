@@ -7,7 +7,9 @@
   changed_when: False
 
 - name: "install monitorix dependencies"
-  apt: pkg={{ item }} state=present
+  apt:
+    name: "{{ item }}"
+    state: present
   with_items:
   - perl
   - rrdtool
@@ -20,16 +22,19 @@
   - libhttp-server-simple-perl
   - libconfig-general-perl
   - libio-socket-ssl-perl
-  when: monitorix_detected_version.stdout != "{{ monitorix_version }}"
   become_user: root
   become: yes
 
 - name: "monitorix download dir"
-  file: path={{ monitorix_download_dir }} state=directory
+  file:
+    path: "{{ monitorix_download_dir }}"
+    state: directory
   when: monitorix_detected_version.stdout != "{{ monitorix_version }}"
 
 - name: "Download monitorix package"
-  get_url: url={{ monitorix_url }} dest={{ monitorix_download_dir }}
+  get_url:
+    url: "{{ monitorix_url }}"
+    dest: "{{ monitorix_download_dir }}"
   when: monitorix_detected_version.stdout != "{{ monitorix_version }}"
 
 - name: "Install monitorix"
@@ -39,15 +44,23 @@
   when: monitorix_detected_version.stdout != "{{ monitorix_version }}"
   become_user: root
   become: yes
+  notify: "restart monitorix"
 
 - name: "Create monitorix config"
-  template: src=monitorix.conf dest={{ monitorix_conf }} owner=root group=root mode=0644
+  template:
+    src: monitorix.conf.j2
+    dest: "{{ monitorix_conf }}"
+    owner: root
+    group: root
+    mode: 0644
   become_user: root
   become: yes
   register: monitorix_config_changed
+  notify: "restart monitorix"
 
-- name: "restart monitorix"
-  service: name=monitorix state=restarted enabled=yes
-  when: monitorix_detected_version.stdout != "{{ monitorix_version }}" or monitorix_config_changed.changed
+- name: "enable monitorix"
+  service:
+    name: monitorix
+    enabled: yes
   become_user: root
   become: yes
