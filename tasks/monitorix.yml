@@ -3,47 +3,47 @@
 - name: "get currently installed monitorix version"
   shell: "dpkg-query --showformat='${Version}' --show monitorix || true"
   register: monitorix_detected_version
-  ignore_errors: True
-  changed_when: False
+  ignore_errors: true
+  changed_when: false
 
 - name: "install monitorix dependencies"
   apt:
     name: "{{ item }}"
     state: present
   with_items:
-  - perl
-  - rrdtool
-  - libwww-perl
-  - libmailtools-perl
-  - libmime-lite-perl
-  - librrds-perl
-  - libdbi-perl
-  - libxml-simple-perl
-  - libhttp-server-simple-perl
-  - libconfig-general-perl
-  - libio-socket-ssl-perl
+    - perl
+    - rrdtool
+    - libwww-perl
+    - libmailtools-perl
+    - libmime-lite-perl
+    - librrds-perl
+    - libdbi-perl
+    - libxml-simple-perl
+    - libhttp-server-simple-perl
+    - libconfig-general-perl
+    - libio-socket-ssl-perl
   become_user: root
-  become: yes
+  become: true
 
 - name: "monitorix download dir"
   file:
     path: "{{ monitorix_download_dir }}"
     state: directory
-  when: monitorix_detected_version.stdout != "{{ monitorix_version }}"
+  when: monitorix_detected_version.stdout != monitorix_version
 
 - name: "Download monitorix package"
   get_url:
     url: "{{ monitorix_url }}"
     dest: "{{ monitorix_download_dir }}"
-  when: monitorix_detected_version.stdout != "{{ monitorix_version }}"
+  when: monitorix_detected_version.stdout != monitorix_version
 
 - name: "Install monitorix"
   command: chdir={{ monitorix_download_dir }} {{ item }}
   with_items:
     - "dpkg -i monitorix_{{ monitorix_version }}_all.deb"
-  when: monitorix_detected_version.stdout != "{{ monitorix_version }}"
+  when: monitorix_detected_version.stdout != monitorix_version
   become_user: root
-  become: yes
+  become: true
   notify: "restart monitorix"
 
 - name: "Create monitorix config"
@@ -54,13 +54,13 @@
     group: root
     mode: 0644
   become_user: root
-  become: yes
+  become: true
   register: monitorix_config_changed
   notify: "restart monitorix"
 
 - name: "enable monitorix"
   service:
     name: monitorix
-    enabled: yes
+    enabled: true
   become_user: root
-  become: yes
+  become: true

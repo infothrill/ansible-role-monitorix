@@ -1,0 +1,8 @@
+---
+- name: Converge
+  hosts: all
+  roles:
+    - role: robertdebock.bootstrap
+      bootstrap_preview: false
+    # - role: robertdebock.epel
+    - role: ansible-role-monitorix

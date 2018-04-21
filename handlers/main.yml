@@ -1,9 +1,8 @@
 ---
 # handlers file for monitorix
-
 - name: "restart monitorix"
   service:
     name: monitorix
     state: restarted
   become_user: root
-  become: yes
+  become: true

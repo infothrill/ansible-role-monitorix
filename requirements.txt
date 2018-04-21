@@ -1,2 +1,2 @@
-ansible-lint==3.4.20
-molecule==1.25.1
+ansible-lint==3.4.21
+molecule==2.12.1
