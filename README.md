@@ -1,5 +1,11 @@
 # Ansible role monitorix
 
+[![Build Status](https://img.shields.io/travis/infothrill/ansible-role-monitorix/master.svg?label=travis_master)](https://travis-ci.org/infothrill/ansible-role-monitorix)
+[![Build Status](https://img.shields.io/travis/infothrill/ansible-role-monitorix/develop.svg?label=travis_develop)](https://travis-ci.org/infothrill/ansible-role-monitorix)
+[![Updates](https://pyup.io/repos/github/infothrill/ansible-role-monitorix/shield.svg)](https://pyup.io/repos/github/infothrill/ansible-role-monitorix/)
+[![Ansible Role](https://img.shields.io/ansible/role/10800.svg)](https://galaxy.ansible.com/infothrill/monitorix/)
+
+
 An [Ansible](http://www.ansible.com) role to install
 [monitorix](http://www.monitorix.org/), a lightweight monitoring system on
 Debian based Linux system.
