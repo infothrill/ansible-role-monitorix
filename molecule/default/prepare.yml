@@ -2,4 +2,7 @@
 - name: Prepare
   hosts: all
   gather_facts: false
-  tasks: []
+  roles:
+    - role: robertdebock.bootstrap
+      bootstrap_preview: false
+    # - role: robertdebock.epel
