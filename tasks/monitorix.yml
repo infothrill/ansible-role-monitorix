@@ -35,6 +35,8 @@
   get_url:
     url: "{{ monitorix_url }}"
     dest: "{{ monitorix_download_dir }}"
+    checksum: "{{ monitorix_checksum }}"
+    validate_certs: false  # we validate the checksum and stay compatible with old python versions
   when: monitorix_detected_version.stdout != monitorix_version
 
 - name: "Install monitorix"

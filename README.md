@@ -5,7 +5,6 @@
 [![Updates](https://pyup.io/repos/github/infothrill/ansible-role-monitorix/shield.svg)](https://pyup.io/repos/github/infothrill/ansible-role-monitorix/)
 [![Ansible Role](https://img.shields.io/ansible/role/10800.svg)](https://galaxy.ansible.com/infothrill/monitorix/)
 
-
 An [Ansible](http://www.ansible.com) role to install
 [monitorix](http://www.monitorix.org/), a lightweight monitoring system on
 Debian based Linux system.
@@ -14,18 +13,18 @@ Debian based Linux system.
 
 requirements.yml:
 
-	- src: infothrill.monitorix
-	  version: v1.1
+    - src: infothrill.monitorix
+      version: v1.2
 
 Install:
 
-	ansible-galaxy install -r requirements.yml -p ./roles/
+    ansible-galaxy install -r requirements.yml -p ./roles/
 
 Playbook:
 
     - hosts: servers
         roles:
-		    - role: infothrill.monitorix
+            - role: infothrill.monitorix
 
 ## Dependencies
 
@@ -41,6 +40,10 @@ This role was created in 2016 by Paul Kremer.
 
 ## Changes
 
+### v1.2
+
+* dropped ansible 2.2 and 2.3 support (EOL)
+
 ### v1.1
 
 * upgraded monitorix minor version in defaults
@@ -51,4 +54,3 @@ This role was created in 2016 by Paul Kremer.
 ### v1.0
 
 * initial release
-
