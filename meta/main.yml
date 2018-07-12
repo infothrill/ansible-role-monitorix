@@ -1,8 +1,9 @@
 ---
 galaxy_info:
+  role_name: monitorix
   author: Paul Kremer
   description: Installs monitorix
-  company: Snakeoil
+  company: "n/a"
 
   license: MIT
 
