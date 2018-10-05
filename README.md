@@ -40,7 +40,7 @@ This role was created in 2016 by Paul Kremer.
 
 ## Changes
 
-### v1.3
+### v1.3.0
 
 * added ansible 2.7 support
 * dropped ansible 2.4 support (EOL)
