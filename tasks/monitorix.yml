@@ -8,20 +8,21 @@
 
 - name: "install monitorix dependencies"
   apt:
-    name: "{{ item }}"
+    name: "{{ packages }}"
     state: present
-  with_items:
-    - perl
-    - rrdtool
-    - libwww-perl
-    - libmailtools-perl
-    - libmime-lite-perl
-    - librrds-perl
-    - libdbi-perl
-    - libxml-simple-perl
-    - libhttp-server-simple-perl
-    - libconfig-general-perl
-    - libio-socket-ssl-perl
+  vars:
+    packages:
+      - perl
+      - rrdtool
+      - libwww-perl
+      - libmailtools-perl
+      - libmime-lite-perl
+      - librrds-perl
+      - libdbi-perl
+      - libxml-simple-perl
+      - libhttp-server-simple-perl
+      - libconfig-general-perl
+      - libio-socket-ssl-perl
   become_user: root
   become: true
 

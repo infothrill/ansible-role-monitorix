@@ -14,7 +14,7 @@ Debian based Linux system.
 requirements.yml:
 
     - src: infothrill.monitorix
-      version: v1.2
+      version: v1.3
 
 Install:
 
@@ -39,6 +39,11 @@ MIT
 This role was created in 2016 by Paul Kremer.
 
 ## Changes
+
+### v1.3
+
+* added ansible 2.7 support
+* dropped ansible 2.4 support (EOL)
 
 ### v1.2
 
