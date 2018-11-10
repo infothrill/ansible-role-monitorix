@@ -14,7 +14,7 @@ Debian based Linux system.
 requirements.yml:
 
     - src: infothrill.monitorix
-      version: v1.3
+      version: v1.3.1
 
 Install:
 
@@ -39,6 +39,10 @@ MIT
 This role was created in 2016 by Paul Kremer.
 
 ## Changes
+
+### v1.3.1
+
+* fixed test execution
 
 ### v1.3.0
 
