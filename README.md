@@ -40,6 +40,10 @@ This role was created in 2016 by Paul Kremer.
 
 ## Changes
 
+### v1.3.2
+
+* upgraded docker driver
+
 ### v1.3.1
 
 * fixed test execution
