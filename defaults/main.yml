@@ -2,7 +2,7 @@
 # defaults file for monitorix
 
 # required settings
-monitorix_version: 3.10.1-izzy1
+monitorix_version: 3.11.0-izzy1
 monitorix_url: http://www.monitorix.org/monitorix_{{ monitorix_version }}_all.deb
 monitorix_checksum: "sha256:a974dd05f67562de85ce4a994cec7f0dcbe3cadad2c5f305131e3867af33a7ad"
 monitorix_download_dir: /home/pi/src/monitorix

@@ -40,6 +40,11 @@ This role was created in 2016 by Paul Kremer.
 
 ## Changes
 
+### v1.4.0
+
+* upgraded docker driver
+* updated monitorix default version
+
 ### v1.3.2
 
 * upgraded docker driver
