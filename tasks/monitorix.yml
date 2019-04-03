@@ -41,7 +41,9 @@
   when: monitorix_detected_version.stdout != monitorix_version
 
 - name: "Install monitorix"
-  command: chdir={{ monitorix_download_dir }} {{ item }}
+  command: "{{ item }}"
+  args:
+    chdir: "{{ monitorix_download_dir }}"
   with_items:
     - "dpkg -i monitorix_{{ monitorix_version }}_all.deb"
   when: monitorix_detected_version.stdout != monitorix_version
