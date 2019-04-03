@@ -40,6 +40,11 @@ This role was created in 2016 by Paul Kremer.
 
 ## Changes
 
+### v1.4.1
+
+* dropped support for Debian wheezy
+* updated molecule,docker and ansible-lint
+
 ### v1.4.0
 
 * upgraded docker driver
