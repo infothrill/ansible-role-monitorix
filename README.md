@@ -14,7 +14,7 @@ Debian based Linux system.
 requirements.yml:
 
     - src: infothrill.monitorix
-      version: v1.3.1
+      version: v1.4.1
 
 Install:
 
