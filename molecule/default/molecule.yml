@@ -16,9 +16,7 @@ platforms:
     image: ubuntu:20.04
   - name: monitorix-debian-stretch
     image: debian:stretch
-  - name: monitorix-debian-jessie
-    image: debian:jessie
-  - name: lynis-debian-buster
+  - name: monitorix-debian-buster
     image: debian:buster
 provisioner:
   name: ansible

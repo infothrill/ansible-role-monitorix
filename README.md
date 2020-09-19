@@ -47,6 +47,7 @@ This role was created in 2016 by Paul Kremer.
 * Dropped support for ansible `<=` 2.7
 * Dropped support for ubuntu 14 LTS
 * Added support for ubuntu 20 LTS, Debian Buster
+* Dropped support for Debian Jessie
 
 ### v1.4.1
 
