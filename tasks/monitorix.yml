@@ -30,6 +30,7 @@
   file:
     path: "{{ monitorix_download_dir }}"
     state: directory
+    mode: "0750"
   when: monitorix_detected_version.stdout != monitorix_version
 
 - name: "Download monitorix package"
