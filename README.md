@@ -40,6 +40,14 @@ This role was created in 2016 by Paul Kremer.
 
 ## Changes
 
+### v1.5.0
+
+* Added support for ansible 2.8, 2.9
+* Dropped support for python 2
+* Dropped support for ansible `<=` 2.6
+* Dropped support for ubuntu 14 LTS
+* Added support for ubuntu 20 LTS, Debian Buster
+
 ### v1.4.1
 
 * dropped support for Debian wheezy
