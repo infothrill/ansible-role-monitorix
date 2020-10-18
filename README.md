@@ -40,6 +40,10 @@ This role was created in 2016 by Paul Kremer.
 
 ## Changes
 
+### v1.5.x
+
+* upgrade to molecule 3.x
+
 ### v1.5.0
 
 * Added support for ansible 2.8, 2.9
