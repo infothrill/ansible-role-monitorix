@@ -40,8 +40,8 @@ This role was created in 2016 by Paul Kremer.
 
 ## Changes
 
-### v1.5.x
-
+### v1.6.0
+* updated monitorix default version
 * upgrade to molecule 3.x
 
 ### v1.5.0
