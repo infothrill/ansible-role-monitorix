@@ -40,6 +40,9 @@ This role was created in 2016 by Paul Kremer.
 
 ## Changes
 
+### v1.6.0
+* updated monitorix default version
+
 ### v1.5.0
 
 * Added support for ansible 2.8, 2.9
