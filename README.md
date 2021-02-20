@@ -40,6 +40,12 @@ This role was created in 2016 by Paul Kremer.
 
 ## Changes
 
+### v1.6.1
+
+* Drop python 3.6 test support
+* Add python 3.9 test support
+* Add ansible 2.10 test support
+
 ### v1.6.0
 * updated monitorix default version
 * upgrade to molecule 3.x
