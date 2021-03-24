@@ -40,6 +40,11 @@ This role was created in 2016 by Paul Kremer.
 
 ## Changes
 
+### v1.6.x
+
+* Drop ansible 2.8 support
+* Add ansible 3.0 support
+
 ### v1.6.1
 
 * Drop python 3.6 test support

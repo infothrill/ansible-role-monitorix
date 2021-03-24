@@ -2,12 +2,13 @@
 galaxy_info:
   role_name: monitorix
   author: Paul Kremer
+  namespace: infothrill
   description: Installs monitorix
   company: "n/a"
 
   license: MIT
 
-  min_ansible_version: 2.8
+  min_ansible_version: 2.9
 
   platforms:
     - name: Ubuntu
